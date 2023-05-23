@@ -1,4 +1,3 @@
-
 let y = 0
 let x = 0
 let y2 = 0
@@ -117,15 +116,8 @@ function dibujarLaberinto(nivel: string) {
         }
     }
 }
-input.onButtonPressed(Button.A, function () {
-    moverIzquierda()
-})
-function moverIzquierda() {
-    if (posicionPersonaje && posicionPersonaje[1] > 0) {
-        posicionPersonaje[1]--;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
-        dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-    }
-}
+
+
 function dibujarMeta(posicionM: number[]) {
         x2 = posicionM[0]
         y2 = posicionM[1]
@@ -136,6 +128,52 @@ function dibujarPersonaje(posicion: number[]) {
         let y = posicion[1];
         led.plotBrightness(x, y, 180);
 }
+function borrarPersonaje(posicionBP: number[]) {
+    const x = posicionBP[0];
+    const y = posicionBP[1];
+    led.unplot(x, y);  // Desactiva el LED en la posición (x, y)
+}
+
+function mIzq() {
+    if (posicionPersonaje[0] > 0) {
+        borrarPersonaje(posicionPersonaje);
+        posicionPersonaje[0]--;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
+        dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
+    }
+}
+function mDer() {
+    if (posicionPersonaje[0] < 4) {
+        borrarPersonaje(posicionPersonaje);
+        posicionPersonaje[0]++;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
+        dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
+    }
+}
+function mAba() {
+    if (posicionPersonaje[1] < 4) {
+        borrarPersonaje(posicionPersonaje);
+        posicionPersonaje[1]++;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
+        dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
+    }
+}
+function mAri() {
+    if (posicionPersonaje[0] < 4) {
+        borrarPersonaje(posicionPersonaje);
+        posicionPersonaje[0]++;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
+        dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
+    }
+}
+
+input.onButtonPressed(Button.A, function () {
+    mIzq()
+})
+
+input.onButtonPressed(Button.B, function () {
+    mDer()
+})
+
+input.onButtonPressed(Button.AB, function () {
+    mAba()
+})
 // Llama a la función para dibujar el laberinto al inicio
 dibujarLaberinto("nivel1")
 dibujarPersonaje(posicionPersonaje)
