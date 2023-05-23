@@ -231,8 +231,8 @@ function validarMovimiento(posicionVM: number[], direccion: string): boolean {
 }
 
 function perdio() {
-    if (puntos <= 0) {
-        basic.showString("End of Game");
+    if (puntos == 0) {
+        basic.showString("Game Over");
         nivel = 1; // Volver al nivel 1
         puntos = 0; // Reiniciar los puntos a cero
         posicionMeta = ganadores[`meta${nivel}`]
