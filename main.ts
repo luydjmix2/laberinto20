@@ -21,51 +21,51 @@ let niveles: Matrices2 = {
         [1, 0, 0, 0, 0],
     ],
     nivel2: [
-        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0],
         [1, 1, 1, 1, 0],
         [0, 0, 1, 0, 0],
-        [0, 1, 1, 1, 1],
+        [0, 1, 1, 0, 1],
         [0, 0, 0, 0, 1],
     ],
     nivel3: [
         [1, 1, 1, 0, 1],
-        [1, 0, 1, 0, 1],
+        [0, 0, 1, 0, 1],
         [1, 0, 1, 0, 1],
         [1, 0, 0, 0, 1],
         [1, 1, 1, 1, 1],
     ],
     nivel4: [
         [1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 1],
         [1, 0, 0, 0, 1],
-        [1, 0, 1, 1, 1],
-        [1, 1, 1, 0, 1],
-    ],
-    nivel5: [
-        [1, 1, 0, 0, 1],
-        [1, 0, 1, 0, 0],
-        [1, 0, 1, 1, 1],
-        [1, 1, 1, 0, 1],
+        [0, 0, 1, 0, 1],
+        [0, 1, 1, 1, 1],
         [0, 0, 1, 0, 1],
     ],
+    nivel5: [
+        [1, 0, 0, 0, 1],
+        [1, 0, 1, 0, 0],
+        [0, 0, 1, 1, 1],
+        [0, 1, 1, 0, 1],
+        [0, 0, 0, 0, 1],
+    ],
     nivel6: [
-        [1, 1, 1, 1, 1],
+        [1, 1, 0, 0, 0],
         [1, 0, 0, 1, 0],
-        [1, 0, 1, 1, 1],
+        [1, 0, 1, 1, 0],
         [1, 0, 1, 0, 0],
         [1, 1, 1, 1, 1],
     ],
     nivel7: [
-        [1, 0, 1, 1, 1],
-        [1, 0, 0, 1, 0],
+        [1, 0, 0, 0, 0],
+        [1, 0, 1, 1, 0],
         [1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 1],
     ],
     nivel8: [
         [0, 0, 1, 0, 1],
-        [0, 0, 1, 0, 1],
         [1, 0, 1, 0, 0],
+        [1, 0, 1, 1, 0],
         [1, 0, 1, 1, 0],
         [1, 0, 0, 0, 0]
     ],
@@ -77,33 +77,48 @@ let niveles: Matrices2 = {
         [0, 0, 0, 0, 0]
     ],
     nivel10: [
-        [0, 1, 1, 1, 0],
+        [0, 1, 1, 0, 0],
+        [0, 0, 1, 0, 1],
+        [0, 1, 1, 0, 0],
         [0, 0, 1, 1, 0],
-        [1, 0, 1, 1, 0],
-        [1, 0, 1, 0, 0],
-        [1, 0, 0, 0, 1]
+        [1, 0, 0, 0, 0]
     ]
 }
 let inicioPersonajeN: Matrices1 = {
     inicioPersonajeN1: [4, 0],
-    inicioPersonajeN2: [0, 4],
-    inicioPersonajeN3: [0, 3],
-    inicioPersonajeN4: [1, 0],
-    inicioPersonajeN5: [0, 0]
+    inicioPersonajeN2: [1, 0],
+    inicioPersonajeN3: [3, 0],
+    inicioPersonajeN4: [3, 2],
+    inicioPersonajeN5: [3, 2],
+    inicioPersonajeN6: [3, 3],
+    inicioPersonajeN7: [1, 1],
+    inicioPersonajeN8: [0, 0],
+    inicioPersonajeN9: [2, 0],
+    inicioPersonajeN10: [4, 0]
 }
-let nivelActual = niveles["nivel1"]
-let posicionInicial = inicioPersonajeN["inicioPersonajeN1"]
-posicionPersonaje = posicionInicial
-let ganadore: Matrices1 = {
-    meta1: [0, 1],
-    meta2: [4, 0],
-    meta3: [0, 0],
-    meta4: [0, 2],
-    meta5: [0, 4]
-}
-let posicionMeta = ganadore["meta1"]
 
-let puntos = 10;
+let ganadores: Matrices1 = {
+    meta1: [0, 1],
+    meta2: [1, 2],
+    meta3: [0, 1],
+    meta4: [1, 4],
+    meta5: [1, 4],
+    meta6: [1, 3],
+    meta7: [0, 3],
+    meta8: [3, 0],
+    meta9: [0, 1],
+    meta10: [1, 1]
+}
+let nivel = 1;
+let nivelActual = niveles[`nivel${nivel}`]
+let posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
+posicionPersonaje = posicionInicial
+
+let posicionMeta = ganadores[`meta${nivel}`]
+
+let puntos = 3;
+
+
 
 // Define la función para dibujar el laberinto en la matriz de LED
 function dibujarLaberinto() {
@@ -124,12 +139,12 @@ function dibujarLaberinto() {
 function dibujarMeta(posicionM: number[]) {
     x2 = posicionM[0]
     y2 = posicionM[1]
-    led.plotBrightness(x2, y2, 120)
+    led.plotBrightness(x2, y2, 60)
 }
 function dibujarPersonaje(posicion: number[]) {
     let x = posicion[0];
     let y = posicion[1];
-    led.plotBrightness(x, y, 180);
+    led.plotBrightness(x, y, 120);
 }
 function borrarPersonaje(posicionBP: number[]) {
     const x = posicionBP[0];
@@ -148,6 +163,7 @@ function mIzq() {
             posicionPersonaje[0]++;
             dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
         }
+        verificarMeta();
     }
 }
 function mDer() {
@@ -161,6 +177,7 @@ function mDer() {
             posicionPersonaje[0]--;
             dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
         }
+        verificarMeta();
     }
 }
 function mAba() {
@@ -174,6 +191,7 @@ function mAba() {
             posicionPersonaje[1]--;
             dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
         }
+        verificarMeta();
     }
 }
 function mAri() {
@@ -187,6 +205,7 @@ function mAri() {
             posicionPersonaje[1]++;
             dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
         }
+        verificarMeta();
     }
 }
 
@@ -200,13 +219,11 @@ function validarMovimiento(posicionVM: number[], direccion: string): boolean {
 
     // Verifica si la próxima posición está dentro de los límites del laberinto
     if (x < 0 || x > 4 || y < 0 || y > 4) {
-        console.log("es un limete del mapa: " + x + "," + y)
         return false; // El movimiento está fuera de los límites
     }
 
     // Verifica si hay un obstáculo en la próxima posición
     if (nivelActual[y][x] == 1) {
-        console.log("hay un ostaculo: " + x + "," + y)
         return false; // Hay un obstáculo en la próxima posición
     }
 
@@ -214,13 +231,59 @@ function validarMovimiento(posicionVM: number[], direccion: string): boolean {
 }
 
 function perdio() {
-    basic.showString("Game Over");
-    basic.pause(1000);  // Pausa de 1 segundo para mostrar el mensaje
-    dibujarLaberinto();  // Vuelve a dibujar el laberinto
-    dibujarMeta(posicionMeta);  // Vuelve a dibujar la meta
+    if (puntos <= 0) {
+        basic.showString("End of Game");
+        nivel = 1; // Volver al nivel 1
+        puntos = 0; // Reiniciar los puntos a cero
+        posicionMeta = ganadores[`meta${nivel}`]
+        nivelActual = niveles[`nivel${nivel}`]
+        posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
+        posicionPersonaje = posicionInicial
+        dibujarLaberinto()
+        dibujarPersonaje(posicionPersonaje)
+        dibujarMeta(posicionMeta)
+    }else{
+        basic.showString("fault");
+        basic.pause(1000);  // Pausa de 1 segundo para mostrar el mensaje
+        dibujarLaberinto();  // Vuelve a dibujar el laberinto
+        dibujarMeta(posicionMeta);  // Vuelve a dibujar la meta
+        restarPuntos()
+    }
     
 }
 
+function sumarPuntos() {
+    puntos += 4;
+}
+
+function restarPuntos() {
+    puntos -= 1;
+}
+
+function verificarMeta() {
+    const meta = ganadores[`meta${nivel}`]; // Obtener las coordenadas de la meta según el nivel actual
+    if (posicionPersonaje[0] === meta[0] && posicionPersonaje[1] === meta[1]) {
+        basic.showString("Successful");
+        sumarPuntos(); // Aumentar los puntos al llegar a la meta
+
+        if (nivel == 10) {
+            basic.showString("Successful game");
+            basic.showString("Score: " + puntos);
+            nivel = 1; // Volver al nivel 1
+            puntos = 0; // Reiniciar los puntos a cero
+        } else {
+            nivel++; // Aumentar el nivel
+            // Aquí puedes agregar la lógica para pasar al siguiente nivel, reiniciar el juego, etc.
+        }
+    }
+    posicionMeta = ganadores[`meta${nivel}`]
+    nivelActual = niveles[`nivel${nivel}`]
+    posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
+    posicionPersonaje = posicionInicial
+    dibujarLaberinto()
+    dibujarPersonaje(posicionPersonaje)
+    dibujarMeta(posicionMeta)
+}
 
 input.onButtonPressed(Button.A, function () {
     mIzq()
