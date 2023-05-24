@@ -1,11 +1,187 @@
-let y = 0
-let x = 0
+function validarMovimiento (posicionVM: number[], direccion: string) {
+    x5 = posicionVM[0]
+    y5 = posicionVM[1]
+    if (x5 < 0 || x5 > 4 || y5 < 0 || y5 > 4) {
+        return false
+    }
+    if (nivelActual[y5][x5] == 1) {
+        return false
+    }
+    return true
+}
+input.onPinPressed(TouchPin.P0, function () {
+    control.reset()
+})
+function mAba () {
+    if (posicionPersonaje[1] < 4) {
+        borrarPersonaje(posicionPersonaje)
+        posicionPersonaje[1]++;
+if (validarMovimiento(posicionPersonaje, "aba")) {
+            dibujarPersonaje(posicionPersonaje)
+        } else {
+            perdio()
+            posicionPersonaje[1]--;
+dibujarPersonaje(posicionPersonaje)
+        }
+        verificarMeta()
+    }
+}
+function verificarMeta () {
+    meta = ganadores[`meta${nivel}`]
+    if (posicionPersonaje[0] == meta[0] && posicionPersonaje[1] == meta[1]) {
+        if (nivel == 10) {
+            basic.clearScreen()
+            basic.showString("Successful game")
+            basic.showString("Score: ")
+            basic.showNumber(puntos)
+            basic.pause(10000)
+            nivel = 1
+            puntos = 0
+        } else {
+            basic.clearScreen()
+            basic.showString("successful")
+            sumarPuntos()
+            nivel += 1
+        }
+    }
+    posicionMeta = ganadores[`meta${nivel}`]
+    nivelActual = niveles[`nivel${nivel}`]
+    posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
+    posicionPersonaje = posicionInicial
+    dibujarLaberinto()
+    dibujarPersonaje(posicionPersonaje)
+    dibujarMeta(posicionMeta)
+}
+function mAri () {
+    if (posicionPersonaje[1] > 0) {
+        borrarPersonaje(posicionPersonaje)
+        posicionPersonaje[1]--;
+if (validarMovimiento(posicionPersonaje, "ari")) {
+            dibujarPersonaje(posicionPersonaje)
+        } else {
+            perdio()
+            posicionPersonaje[1]++;
+dibujarPersonaje(posicionPersonaje)
+        }
+        verificarMeta()
+    }
+}
+function dibujarLaberinto () {
+    matrizLaberinto = nivelActual
+    for (let fila = 0; fila <= 4; fila++) {
+        for (let columna = 0; columna <= 4; columna++) {
+            estadoLED2 = matrizLaberinto[fila][columna]
+            if (estadoLED2 == 1) {
+                led.plotBrightness(columna, fila, 255)
+            } else {
+                led.plotBrightness(columna, fila, 0)
+            }
+        }
+    }
+}
+function perdio () {
+    if (puntos == 0) {
+        basic.clearScreen()
+        basic.showString("Game Over")
+        nivel = 1
+        puntos = 0
+        posicionMeta = ganadores[`meta${nivel}`]
+        nivelActual = niveles[`nivel${nivel}`]
+        posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
+        posicionPersonaje = posicionInicial
+        dibujarLaberinto()
+        dibujarPersonaje(posicionPersonaje)
+        dibujarMeta(posicionMeta)
+    } else {
+        basic.clearScreen()
+        basic.showString("fault")
+        basic.pause(1000)
+        dibujarLaberinto()
+        dibujarMeta(posicionMeta)
+        restarPuntos()
+    }
+}
+function borrarPersonaje (posicionBP: number[]) {
+    x4 = posicionBP[0]
+    y4 = posicionBP[1]
+    led.unplot(x4, y4)
+}
+input.onButtonPressed(Button.A, function () {
+    mIzq()
+})
+function sumarPuntos () {
+    puntos += 4
+}
+function restarPuntos () {
+    puntos += 0 - 1
+}
+input.onPinPressed(TouchPin.P2, function () {
+    mAri()
+})
+function dibujarMeta (posicionM: number[]) {
+    x2 = posicionM[0]
+    y2 = posicionM[1]
+    led.plotBrightness(x2, y2, 60)
+}
+function dibujarPersonaje (posicion: number[]) {
+    x3 = posicion[0]
+    y3 = posicion[1]
+    led.plotBrightness(x3, y3, 120)
+}
+function mIzq () {
+    if (posicionPersonaje[0] > 0) {
+        borrarPersonaje(posicionPersonaje)
+        posicionPersonaje[0]--;
+if (validarMovimiento(posicionPersonaje, "izq")) {
+            dibujarPersonaje(posicionPersonaje)
+        } else {
+            perdio()
+            posicionPersonaje[0]++;
+dibujarPersonaje(posicionPersonaje)
+        }
+        verificarMeta()
+    }
+}
+input.onButtonPressed(Button.B, function () {
+    mAba()
+})
+input.onPinPressed(TouchPin.P1, function () {
+    mDer()
+})
+function mDer () {
+    if (posicionPersonaje[0] < 4) {
+        borrarPersonaje(posicionPersonaje)
+        posicionPersonaje[0]++;
+if (validarMovimiento(posicionPersonaje, "der")) {
+            dibujarPersonaje(posicionPersonaje)
+        } else {
+            perdio()
+            posicionPersonaje[0]--;
+dibujarPersonaje(posicionPersonaje)
+        }
+        verificarMeta()
+    }
+}
+let y3 = 0
+let x3 = 0
 let y2 = 0
 let x2 = 0
+let y4 = 0
+let x4 = 0
 let estadoLED2 = 0
 let matrizLaberinto: number[][] = []
-let posicionPersonaje: number[] = []
+let meta: number[] = []
+let y5 = 0
+let x5 = 0
+let puntos = 0
+let posicionMeta: number[] = []
+let posicionInicial: number[] = []
+let nivelActual: number[][] = []
+let nivel = 0
 let estadoLED = 0
+let posicionPersonaje: number[] = []
+let x = 0
+let y = 0
 type Matrices1 = {
     [key: string]: number[];
 }
@@ -96,7 +272,6 @@ let inicioPersonajeN: Matrices1 = {
     inicioPersonajeN9: [2, 0],
     inicioPersonajeN10: [4, 0]
 }
-
 let ganadores: Matrices1 = {
     meta1: [0, 1],
     meta2: [1, 2],
@@ -109,202 +284,12 @@ let ganadores: Matrices1 = {
     meta9: [0, 1],
     meta10: [1, 1]
 }
-let nivel = 1;
-let nivelActual = niveles[`nivel${nivel}`]
-let posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
+nivel = 1
+nivelActual = niveles[`nivel${nivel}`]
+posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
 posicionPersonaje = posicionInicial
-
-let posicionMeta = ganadores[`meta${nivel}`]
-
-let puntos = 3;
-
-
-
-// Define la función para dibujar el laberinto en la matriz de LED
-function dibujarLaberinto() {
-    matrizLaberinto = nivelActual
-    for (let fila = 0; fila <= 4; fila++) {
-        for (let columna = 0; columna <= 4; columna++) {
-            estadoLED2 = matrizLaberinto[fila][columna]
-            if (estadoLED2 == 1) {
-                led.plotBrightness(columna, fila, 255)
-            } else {
-                led.plotBrightness(columna, fila, 0)
-            }
-        }
-    }
-}
-
-
-function dibujarMeta(posicionM: number[]) {
-    x2 = posicionM[0]
-    y2 = posicionM[1]
-    led.plotBrightness(x2, y2, 60)
-}
-function dibujarPersonaje(posicion: number[]) {
-    let x = posicion[0];
-    let y = posicion[1];
-    led.plotBrightness(x, y, 120);
-}
-function borrarPersonaje(posicionBP: number[]) {
-    const x = posicionBP[0];
-    const y = posicionBP[1];
-    led.unplot(x, y);  // Desactiva el LED en la posición (x, y)
-}
-
-function mIzq() {
-    if (posicionPersonaje[0] > 0) {
-        borrarPersonaje(posicionPersonaje);
-        posicionPersonaje[0]--;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
-        if (validarMovimiento(posicionPersonaje, 'izq')) {
-            dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-        }else{
-            perdio()
-            posicionPersonaje[0]++;
-            dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-        }
-        verificarMeta();
-    }
-}
-function mDer() {
-    if (posicionPersonaje[0] < 4) {
-        borrarPersonaje(posicionPersonaje);
-        posicionPersonaje[0]++;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
-        if (validarMovimiento(posicionPersonaje, 'der')){
-            dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-        } else {
-            perdio()
-            posicionPersonaje[0]--;
-            dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-        }
-        verificarMeta();
-    }
-}
-function mAba() {
-    if (posicionPersonaje[1] < 4) {
-        borrarPersonaje(posicionPersonaje);
-        posicionPersonaje[1]++;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
-        if (validarMovimiento(posicionPersonaje, 'aba')){
-            dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-        }else {
-            perdio()
-            posicionPersonaje[1]--;
-            dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-        }
-        verificarMeta();
-    }
-}
-function mAri() {
-    if (posicionPersonaje[1] > 0) {
-        borrarPersonaje(posicionPersonaje);
-        posicionPersonaje[1]--;  // Disminuye la coordenada y del personaje para moverlo hacia la izquierda
-        if (validarMovimiento(posicionPersonaje,'ari')){
-            dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-        } else {
-            perdio()
-            posicionPersonaje[1]++;
-            dibujarPersonaje(posicionPersonaje);  // Vuelve a dibujar el personaje en la nueva posición
-        }
-        verificarMeta();
-    }
-}
-
-function validarMovimiento(posicionVM: number[], direccion: string): boolean {
-    console.log(posicionVM)
-    let x = posicionVM[0];
-    let y = posicionVM[1];
-
-    // Calcula la próxima posición en función de la dirección
-
-
-    // Verifica si la próxima posición está dentro de los límites del laberinto
-    if (x < 0 || x > 4 || y < 0 || y > 4) {
-        return false; // El movimiento está fuera de los límites
-    }
-
-    // Verifica si hay un obstáculo en la próxima posición
-    if (nivelActual[y][x] == 1) {
-        return false; // Hay un obstáculo en la próxima posición
-    }
-
-    return true; // El movimiento es válido
-}
-
-function perdio() {
-    if (puntos == 0) {
-        basic.showString("Game Over");
-        nivel = 1; // Volver al nivel 1
-        puntos = 0; // Reiniciar los puntos a cero
-        posicionMeta = ganadores[`meta${nivel}`]
-        nivelActual = niveles[`nivel${nivel}`]
-        posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
-        posicionPersonaje = posicionInicial
-        dibujarLaberinto()
-        dibujarPersonaje(posicionPersonaje)
-        dibujarMeta(posicionMeta)
-    }else{
-        basic.showString("fault");
-        basic.pause(1000);  // Pausa de 1 segundo para mostrar el mensaje
-        dibujarLaberinto();  // Vuelve a dibujar el laberinto
-        dibujarMeta(posicionMeta);  // Vuelve a dibujar la meta
-        restarPuntos()
-    }
-    
-}
-
-function sumarPuntos() {
-    puntos += 4;
-}
-
-function restarPuntos() {
-    puntos -= 1;
-}
-
-function verificarMeta() {
-    const meta = ganadores[`meta${nivel}`]; // Obtener las coordenadas de la meta según el nivel actual
-    if (posicionPersonaje[0] === meta[0] && posicionPersonaje[1] === meta[1]) {
-        basic.showString("Successful");
-        sumarPuntos(); // Aumentar los puntos al llegar a la meta
-
-        if (nivel == 10) {
-            basic.showString("Successful game");
-            basic.showString("Score: " + puntos);
-            nivel = 1; // Volver al nivel 1
-            puntos = 0; // Reiniciar los puntos a cero
-        } else {
-            nivel++; // Aumentar el nivel
-            // Aquí puedes agregar la lógica para pasar al siguiente nivel, reiniciar el juego, etc.
-        }
-    }
-    posicionMeta = ganadores[`meta${nivel}`]
-    nivelActual = niveles[`nivel${nivel}`]
-    posicionInicial = inicioPersonajeN[`inicioPersonajeN${nivel}`]
-    posicionPersonaje = posicionInicial
-    dibujarLaberinto()
-    dibujarPersonaje(posicionPersonaje)
-    dibujarMeta(posicionMeta)
-}
-
-input.onButtonPressed(Button.A, function () {
-    mIzq()
-})
-
-input.onButtonPressed(Button.B, function () {
-    mDer()
-})
-
-input.onButtonPressed(Button.AB, function () {
-    mAba()
-})
-
-input.onGesture(Gesture.Shake, function () {
-    mAri()
-})
-// Llama a la función para dibujar el laberinto al inicio
+posicionMeta = ganadores[`meta${nivel}`]
+puntos = 3
 dibujarLaberinto()
 dibujarPersonaje(posicionPersonaje)
 dibujarMeta(posicionMeta)
-basic.forever(function () {
-
-})
-
